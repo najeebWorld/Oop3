@@ -5,8 +5,6 @@ class Node:
         self.y = y
         self.z = z
         self.id = id
-      #  self.into = dict()
-       # self.outfrom = dict()
         self.in1 = dict()
         self.out1 = dict()
         self.tag = 0
@@ -43,12 +41,12 @@ class Node:
         self.z = z
 
          #this function return the dictionary of nodes in
-    def getInto(self) :
-        return self.into
+    def getIn1(self) :
+        return self.in1
 
         # this function return the dictionary of nodes out
-    def getOutFrom(self) :
-        return  self.outfrom
+    def getOut1(self) :
+        return  self.out1
 
 
     def gettag(self):

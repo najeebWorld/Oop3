@@ -7,14 +7,14 @@ class MyTestCase(unittest.TestCase):
     def test_something(self):
 
         myalgo = GraphAlgo()
-        myalgo.load_from_json("my graph1.json")
+        myalgo.load_from_json("100000.json")
 
 
         # load and save
-        # myalgo.load_from_json("my graph1.json")
-        # myalgo.save_to_json("myGraph1copy.json")
+        # myalgo.load_from_json("100000.json")
+        # myalgo.save_to_json("100000copy.json")
         # my_algo_new =GraphAlgo()
-        # my_algo_new.load_from_json("myGraph1copy.json")
+        # my_algo_new.load_from_json("100000copy.json")
         # ans = True
         # for n in myalgo.graph.nodeD:
         #     if myalgo.graph.nodeD[n].getId() != my_algo_new.graph.nodeD[n].getId():
@@ -37,9 +37,15 @@ class MyTestCase(unittest.TestCase):
 
 
         # shortest path
-        # x= myalgo.shortest_path(0, 8)
-        # self.assertAlmostEqual(x[0],5.0)
-        # self.assertEqual(x[1], [0, 1, 2, 4, 5, 8])
+        # lenn =len(myalgo.graph.nodeD)
+        # liist=random.sample(range(0, lenn), 2)
+        # print(liist)
+        # x= myalgo.shortest_path(1, 1)
+        # print(x)
+
+
+        # self.assertAlmostEqual(x[0],9)
+        # self.assertEqual(x[1], [])
 
 
         # center
@@ -55,6 +61,9 @@ class MyTestCase(unittest.TestCase):
         # print(liist)
         # ans =myalgo.TSP(liist)
         # print("ans:" ,ans)
+
+
+
         # a1= len(ans[0]) >= len(liist)
         # self.assertTrue(a1)
 

@@ -1,8 +1,8 @@
-import matplotlib
+
 import json
 import string
 from typing import List , cast
-import random
+
 from queue import PriorityQueue
 
 from matplotlib import pyplot as plt
@@ -23,22 +23,30 @@ class GraphAlgo (GraphAlgoInterface):
         self.graph = g
 
     def get_graph(self) -> GraphInterface:
+        """
+        returns the graph
+        the run time is O(1)
+        """
         return self.graph
 
+
     def load_from_json(self, file_name: str) -> bool:
+        """
+            Loads a graph from a json file.
+            the run time is O(|v|+|e|) v=vertexes, e=edges .
+            @param file_name: The path to the json file
+            @returns True if the loading was successful, False o.w.
+        """
+
+
         try:
             f = open(file_name)
             data = json.load(f)
-            #self.Graph = self.Graph.init_()
             n=data["Nodes"]
             pos1 = False
             for keys in n:
                 if "pos" in keys:
                     pos1 = True
-            #print( "printing ",i)
-            # if i[0]!="pos":
-            #      for i in data["Nodes"]:
-            #          self.graph.add_node(i["id"])
             if pos1==False:
                 for i in data["Nodes"]:
                       self.graph.add_node(i["id"])
@@ -47,9 +55,7 @@ class GraphAlgo (GraphAlgoInterface):
                     n = (i["pos"])
                     n: cast(string, n)  # cast it to string
                     m = n.split(',')  # spliting to nodes
-                   # print(m)
                     pos = (float(m[0]), float(m[1]), float(m[2]))
-                    #print(pos)
                     self.graph.add_node(i["id"], pos)
             for i in data["Edges"]:
                 self.graph.add_edge(i["src"], i["dest"], i["w"])
@@ -57,20 +63,22 @@ class GraphAlgo (GraphAlgoInterface):
         except Exception as e:
             print(e)
             return False
-        """
-        Loads a graph from a json file.
-        @param file_name: The path to the json file
-        @returns True if the loading was successful, False o.w.
-        """
+
         #raise NotImplementedError
 
+
     def save_to_json(self, file_name: str) -> bool:
+
+        """
+        Saves the graph in JSON format to a file
+        the run time is O(|v|+|e|) v=vertexes, e=edges .
+        @param file_name: The path to the out file
+        @return: True if the save was successful, False o.w.
+        """
+
+
         dict = {"Nodes": [], "Edges": []}
         n =self.graph.nodeD
-        # for node in self.graph.nodeD.values():
-        #     id = node.getId()
-        #     pos = f'{node.getX()},{node.getY()},{node.getY()}'
-        #     dict['Nodes'].append({'id': id, 'pos': pos})
         for no in n:
             id =n[no].getId()
             x = str(n[no].getX())
@@ -78,12 +86,7 @@ class GraphAlgo (GraphAlgoInterface):
             y = str(n[no].getY())
             z = str(n[no].getZ())
             pos = x + c1 + y + c1 + z
-            #pos = f'{ n[no].getX(),n[no].getY(),n[no].getZ()}'
-            #pos = [n[no].getX(),n[no].getY(),n[no].getZ()]
             dict['Nodes'].append({'id': id, 'pos': pos})
-            #     pos = f'{node.getX()},{node.getY()},{node.getY()}'
-        # for edge in self.graph.edgeD:
-        #     dict['Edges':].append({'src': edge.getsrc(), 'dest': edge.getdest(), 'w': edge.getweight()})
         e = self.graph.edgeD
         for ed in e:
             dict['Edges'].append({'src': e[ed].getsrc() ,'dest': e[ed].getdest(), 'w': e[ed].getweight()})
@@ -96,62 +99,93 @@ class GraphAlgo (GraphAlgoInterface):
             print(e)
             return False
 
-
-        """
-        Saves the graph in JSON format to a file
-        @param file_name: The path to the out file
-        @return: True if the save was successful, False o.w.
-        """
         #raise NotImplementedError
 
+
     def shortest_path(self, id1: int, id2: int) -> (float, list):
+
+        """
+             Returns the shortest path from node id1 to node id2 using Dijkstra's Algorithm
+             we will check if id1 and id2 are in the graph.
+             if they arent in the graph we will return (inf,[])
+             we will checkif they are the same, if they are we will return (0,[id1])
+             if they are in the graph we will run dijsktra
+             dijsktra will return a tuple with 2 dictionarys
+             we will accesses the dictionary and get the values that we need.
+             we will put them in a tuple and return them
+             the run time is O(|v|^2) v=vertexes
+             @param id1: The start node id
+             @param id2: The end node id
+             @return: The distance of the path, a list of the nodes ids that the path goes through
+             """
+
+        n = self.graph.nodeD.keys()
+
+        if id1 not in n:
+            return (float("inf") , [])
+        if id2 not in n:
+            return (float("inf"), [])
+        if id1==id2:
+            return (0,[id1])
         x = self.dijasktra(id1)
         l=(id1, id2)
         ans=(x[0].get(l),x[1].get(l))
         return ans;
-        """
-        Returns the shortest path from node id1 to node id2 using Dijkstra's Algorithm
-        @param id1: The start node id
-        @param id2: The end node id
-        @return: The distance of the path, a list of the nodes ids that the path goes through
-        Example:
-#      >>> from GraphAlgo import GraphAlgo
-#       >>> g_algo = GraphAlgo()
-#        >>> g_algo.addNode(0)
-#        >>> g_algo.addNode(1)
-#        >>> g_algo.addNode(2)
-#        >>> g_algo.addEdge(0,1,1)
-#        >>> g_algo.addEdge(1,2,4)
-#        >>> g_algo.shortestPath(0,1)
-#        (1, [0, 1])
-#        >>> g_algo.shortestPath(0,2)
-#        (5, [0, 1, 2])
-        Notes:
-        If there is no path between id1 and id2, or one of them dose not exist the function returns (float('inf'),[])
-        More info:
-        https://en.wikipedia.org/wiki/Dijkstra's_algorithm
-        """
+
         #raise NotImplementedError
 
+
     def TSP(self, node_lst: List[int]) -> (List[int], float):
+
+        """
+           Finds the shortest path that visits all the nodes in the list
+           we will make a copy of the list.
+           we will create 2 dictionaries, 1 for the length the other for the list.
+           we will run dijesktra on all the nodes in the list.
+           each time we run dijesktra we will get a tuple with 2 dictionaries
+           we will enter these dictionaries into the dictionaries we created
+           we will find the pair of nodes in the list with the shortest distance
+           we will create a list and add the pair in, inorder,
+           and we wil create a variable to hold the distance.
+           we will take the pair out of the copy of the list.
+           while the copy of the list isn't empty
+           we will take the first value of the list and check if its better to add it in the beginning of the list of nodes or at the end.
+           we will check if its better in beginning or end by finding the distance in the dictiory
+           we will add the the list of nodes that represents the path to the respective side of the list.
+           and remove the nodes that we added that were from the given list from the copy.
+           we will return the distance and the list
+           the run time is O(k*|v|^2) v=vertexes k=size of the list of nodes
+
+          :param node_lst: A list of nodes id's
+          :return: A list of the nodes id's in the path, and the overall distance
+
+
+
+        """
+        if len(node_lst)==0:
+            return (float("inf"), [])
+
         n_list = []
         for i in node_lst:
             n_list.append(i)
+
+        n = self.graph.nodeD.keys()
+        for x in n_list:
+            if x not in n:
+                return (float("inf"), [])
+
+
+        if len(node_lst) == 1:
+            return (0, node_lst)
+
         dubD =dict()
         listD=dict()
         for n in node_lst:
             pair = self.dijasktra(n)
             d = pair[0]
             dubD[n] = d
-            # for p0 in d:
-            #     dubD[p0] = d.get[p0]
             l = pair[1]
             listD[n] = l
-            # for p1 in l:
-            #     listD[p1] = l.get[p1]
-
-        #print(dubD)
-        #print(listD)
 
         small = float("inf")
         for outer in dubD:
@@ -161,8 +195,7 @@ class GraphAlgo (GraphAlgoInterface):
                     if m[inner] < small:
                         small = m[inner]
                         in1 = inner
-                        out1= outer
-        #print(small, out1, in1)
+
 
         flooat= small
         liist=[]
@@ -176,6 +209,8 @@ class GraphAlgo (GraphAlgoInterface):
             end = liist[len(liist)-1]
             dist1=dubD[end][(end, new)]
             dist2=dubD[new][(new,begin)]
+            if dist1 == float("inf") and dist2 == float("inf"):
+                return (float("inf"), [])
             if dist1 < dist2:
                 flooat=flooat+dist1
                 l=listD[end][(end, new)]
@@ -199,13 +234,21 @@ class GraphAlgo (GraphAlgoInterface):
 
         ans= (liist, flooat)
         return ans
-        """
-        Finds the shortest path that visits all the nodes in the list
-        :param node_lst: A list of nodes id's
-        :return: A list of the nodes id's in the path, and the overall distance
-        """
+
 
     def centerPoint(self) -> (int, float):
+
+        """
+            Finds the node that has the shortest distance to it's farthest node.
+            we will run dijesktra for each node.
+            we will find the longest path in each dictionary and add it to a new dictionary.
+            that holds the node and the distance.
+            we will go through the dictionary and find the the smallest value.
+            and return the key and value
+            the run time is O(|v|^3) v=vertexes
+           :return: The nodes id, min-maximum distance
+       """
+
         x = self.isConnected()
         if x == False:
             ans = (None, float("inf"))
@@ -223,7 +266,6 @@ class GraphAlgo (GraphAlgoInterface):
                     big = d
 
             short_long[a] = big
-        #print(short_long)
         small = (None, float("inf"))
         for key in short_long:
             if short_long[key] < small[1]:
@@ -232,17 +274,16 @@ class GraphAlgo (GraphAlgoInterface):
         return small
 
 
-
-        """
-        Finds the node that has the shortest distance to it's farthest node.
-        :return: The nodes id, min-maximum distance
-        """
-
     def plot_graph(self) -> None:
         """
         Plots the graph.
-        If the nodes have a position, the nodes will be placed there.
-        Otherwise, they will be placed in a random but elegant manner.
+        we will make a list of th x,y coordinates and the id of the nodes.
+        we will make a list of the x,y coordinates if both edges of the edges.
+        if the graph has more then 1000 nodes or more than 2000 edges we will print the nodes and the id,
+        and then print the edges.
+        else we will print the nodes the edges and then the keys
+        the run time is O(|v|+|e|) v=vertexes, e=edges
+
         @return: None
         """
         n = self.graph.nodeD
@@ -268,17 +309,12 @@ class GraphAlgo (GraphAlgoInterface):
             listx2.append(n[dest].getX())
             listy2.append(n[dest].getY())
 
-       # print(listx1,listy1,listx2, listy2)
+
         lennode=len(listx)
         lenedge=len(listx1)
 
-
-
         figure(figsize=(10,7))
         plt.rcParams['axes.facecolor'] = 'gray'
-        # ax= plt.subplots(1,1)
-        # ax.set_xlabel('x axis')
-        # ax.set_ylabel('y axis')
 
         if(lennode>1000 or lenedge>2000):
             for i in range (0, lennode):
@@ -300,6 +336,17 @@ class GraphAlgo (GraphAlgoInterface):
 
 
     def dijasktra(self, src: int) -> tuple:
+
+
+        """"
+        dijasktra algorithm
+        an algorithm to find the shortest distance and path from 1 node to all other nodes in the graph
+        we implemented this algorithm with a priority queue
+        to reed more about this algorithm https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+        the run time of this function is O(|v|^2+|e|)= O(|v|^2) v=vertexes, e=edges .
+        """
+
+
         q = PriorityQueue(maxsize=10000000000)
         mapd = dict()
         mapl = dict()
@@ -313,9 +360,7 @@ class GraphAlgo (GraphAlgoInterface):
             l1 = (src, n1.getId())
             mapd[l1] = float("inf")
             mapl[l1] = l2
-            #l.append(n1)
             l.append(key)
-
 
         l1 = (src, src)
         mapd[l1] = 0.0
@@ -325,66 +370,69 @@ class GraphAlgo (GraphAlgoInterface):
         while(empt == False):
             peek1 = q.queue[0]
             peek = peek1[1]
-            #for k in self.graph.nodeD.get(peek).outfrom:
             for k in self.graph.nodeD.get(peek).out1:
-                #e = self.graph.nodeD.get(peek).outfrom[k]
                 e=self.graph.nodeD.get(peek).out1[k]
-                #dest =n[e.getdest()]
-                #if dest in l:
                 if k in l:
-                    #l2 = (src, e.getdest())
                     l2 = (src, k)
                     if mapd.get(l2) == float("inf"):
-
-                        #l3 = (src, e.getsrc())
                         l3 = (src, peek)
-                        #d = mapd[l3] + e.getweight()
                         d = mapd[l3] + e
                         mapd[l2] = d
-                        #q.put((d, e.getdest()))
                         q.put((d, k))
                         l5 = []
                         l6 = mapl[l3]
                         for i in range(len(l6)):
                             if l6[i] not in l5:
                                 l5.append(l6[i])
-                        #l5.append(e.getdest())
                         l5.append(k)
                         mapl[l2] = l5
                     else:
-                        #l3 = (src, e.getsrc())
                         l3 = (src, peek)
-                        #if mapd[l2] >mapd[l3] + e.getweight():
                         if mapd[l2] > mapd[l3] + e:
-                            #d = mapd[l3] + e.getweight()
                             d = mapd[l3] + e
                             mapd[l2] = d
-                            #q.put((d, e.getdest()))
                             q.put((d,k))
                             l5 = []
                             l6 = mapl[l3]
                             for i in range(len(l6)):
                                 if l6[i] not in l5:
                                     l5.append(l6[i])
-                            #l5.append(e.getdest())
                             l5.append(k)
                             mapl[l2] = l5
-
             y = q.get(0)
             empt = q.empty()
             n1 = self.graph.nodeD.get(peek)
-            # if n1 in l:
-            #     l.remove(n1)
             if peek in l:
                 l.remove(peek)
-
 
         return (mapd, mapl)
 
 
     def isConnected(self) -> bool:
+
+
+        """
+        we will check if you can get from every Vertex to Every Vertex
+        if the graph has no nodes by default it is connected
+        if the graph has fewer edges than vertexes it can not be connected
+        if neither of the if give us an answer
+        we will start by marking each vertex as not seen
+        we will create a list and add the first vertex to it
+        while the list isnt empty
+        we will take out the first value from the list
+        we will mark the vertex as seen and iterate through the vertexes edges and add the edges dest to the list
+        after we will iterate through the Vertexes and make sure that all the Vertexes have been seen
+        if we find a vertex that hasn't been seen the graph isn't connected
+        if all the vertexes have been seen we will flip the graph
+        and repeat on the flipped graph
+
+        the running time is O(|v|+|e|) v=vertex e=edge
+        """
+
+
+
         if self.graph.v_size()==0:
-            return False
+            return True
         if self.graph.e_size() < self.graph.v_size():
             return False
         for key in self.graph.nodeD:
@@ -397,22 +445,14 @@ class GraphAlgo (GraphAlgoInterface):
             n2 = l[0]
             l.remove(n2)
             n2.settag(1)
-            # for k in self.graph.nodeD.get(n2.getId()).outfrom:
             for k in self.graph.nodeD.get(n2.getId()).out1:
-                # e = self.graph.nodeD.get(n2.getId()).outfrom[k]  # edge
                 e = self.graph.nodeD.get(n2.getId()).out1[k]  #other side of edge int
-                # n3 = self.graph.nodeD.get(e.getdest())
-                # if n3.gettag() != 1:
-                #     if n3 not in l:
-                #         l.append(n3)
                 n3 =self.graph.nodeD.get(k)
                 if n3.gettag() != 1:
                     if n3 not in l:
                         l.append(n3)
 
-
         for key in self.graph.nodeD:
-            # print("key=" , key, self.graph.nodeD[key].gettag())
             if self.graph.nodeD[key].gettag() == 0:
                 return False
 
@@ -428,20 +468,13 @@ class GraphAlgo (GraphAlgoInterface):
             n2 = l[0]
             l.remove(n2)
             n2.settag(1)
-            #for k in graphflip.nodeD.get(n2.getId()).outfrom:
             for k in graphflip.nodeD.get(n2.getId()).out1:
-                #e = graphflip.nodeD.get(n2.getId()).outfrom[k]  # edge
                 e = graphflip.nodeD.get(n2.getId()).out1[k]  #other side of edge int
-                # n3 = graphflip.nodeD.get(e.getdest())
-                # if n3.gettag() != 1:
-                #     if n3 not in l:
-                #         l.append(n3)
                 n3 = graphflip.nodeD.get(k)
                 if n3.gettag() != 1:
                     if n3 not in l:
                         l.append(n3)
         for key in graphflip.nodeD:
-            # print("key=" , key, self.graph.nodeD[key].gettag())
             if graphflip.nodeD[key].gettag() == 0:
                 return False
 
@@ -449,10 +482,19 @@ class GraphAlgo (GraphAlgoInterface):
 
 
     def flipGraph(self,graph: DiGraph)-> DiGraph:
+
+        """
+        we will start by creating a new graph
+        we will copy the vertexes from the given graph to our new graph
+        we will copy the edges from the given graph to our new graph
+        BUT we will switch the src and dest
+        run time O(|v|+|e|) v=vertexes, e=edges
+        """
+
         gr = DiGraph()
         for k in graph.nodeD:
-            id=graph.nodeD[k].getId()
-            cor=(graph.nodeD[k].getX(), graph.nodeD[k].getY(), graph.nodeD[k].getZ())
+            id = graph.nodeD[k].getId()
+            cor = (graph.nodeD[k].getX(), graph.nodeD[k].getY(), graph.nodeD[k].getZ())
             gr.add_node(id, cor)
         for k in graph.edgeD:
             e = graph.edgeD[k]
@@ -460,6 +502,4 @@ class GraphAlgo (GraphAlgoInterface):
             d = e.getdest()
             w = e.getweight()
             gr.add_edge(d, s, w)
-       # print("flipped nodes:\n", gr.nodeD)
-       # print("flipped edges:\n", gr.edgeD)
         return gr
