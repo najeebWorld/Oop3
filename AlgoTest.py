@@ -27,27 +27,48 @@ class MyTestCase(unittest.TestCase):
         # creating algo
         myalgo =GraphAlgo(g)
 
-        # testing load - not full
-        g0 = DiGraph()
-        algo0 = GraphAlgo(g0)
+        # loading garphs
+        algo0 = GraphAlgo()
         algo0.load_from_json("C:/Users/nechd\Desktop\OOP_2021-main\Assignments\Ex3\data\A0.json")
-        #print("nodes\n:", algo2.graph.nodeD)
-        #print("edges\n:", algo2.graph.edgeD)
-        g1 = DiGraph()
-        algo1 = GraphAlgo(g1)
+        algo1 = GraphAlgo()
         algo1.load_from_json("C:/Users/nechd\Desktop\OOP_2021-main\Assignments\Ex3\data\A1.json")
-        g2 = DiGraph()
-        algo2 = GraphAlgo(g2)
+        algo2 = GraphAlgo()
         algo2.load_from_json("C:/Users/nechd\Desktop\OOP_2021-main\Assignments\Ex3\data\A2.json")
-        g3 = DiGraph()
-        algo3 = GraphAlgo(g3)
+        algo3 = GraphAlgo()
         algo3.load_from_json("C:/Users/nechd\Desktop\OOP_2021-main\Assignments\Ex3\data\A3.json")
-        g4 = DiGraph()
-        algo4 = GraphAlgo(g4)
+        algo4 = GraphAlgo()
         algo4.load_from_json("C:/Users/nechd\Desktop\OOP_2021-main\Assignments\Ex3\data\A4.json")
-        g5 = DiGraph()
-        algo5 = GraphAlgo(g5)
+        algo5 = GraphAlgo()
         algo5.load_from_json("C:/Users/nechd\Desktop\OOP_2021-main\Assignments\Ex3\data\A5.json")
+        algo6 = GraphAlgo()
+        algo6.load_from_json("C:/Users/nechd\Desktop\OOP_2021-main\Assignments\Ex3\data\T0.json")
+        algo7 = GraphAlgo()
+        algo7.load_from_json("C:/Users/nechd\Desktop\OOP_2021-main\Assignments\Ex3\my graph1.json")
+
+        # test for load and save
+        myalgo.save_to_json("myjson4node.json")
+        my_algo_new = GraphAlgo()
+        my_algo_new.load_from_json("myjson4node.json")
+        ans = True
+        for n in myalgo.graph.nodeD:
+            if myalgo.graph.nodeD[n].getId() != my_algo_new.graph.nodeD[n].getId():
+                ans = False
+            if myalgo.graph.nodeD[n].getX() != my_algo_new.graph.nodeD[n].getX():
+                ans = False
+            if myalgo.graph.nodeD[n].getY() != my_algo_new.graph.nodeD[n].getY():
+                ans = False
+            if myalgo.graph.nodeD[n].getZ() != my_algo_new.graph.nodeD[n].getZ():
+                ans = False
+        self.assertTrue(ans)
+        for e in myalgo.graph.edgeD:
+            if myalgo.graph.edgeD[e].getsrc() != my_algo_new.graph.edgeD[e].getsrc():
+                ans = False
+            if myalgo.graph.edgeD[e].getdest() != my_algo_new.graph.edgeD[e].getdest():
+                ans = False
+            if myalgo.graph.edgeD[e].getweight() != my_algo_new.graph.edgeD[e].getweight():
+                ans = False
+
+        self.assertTrue(ans)
 
 
         # test for tsp
@@ -55,14 +76,14 @@ class MyTestCase(unittest.TestCase):
         for n in g.nodeD:
             l.append(g.nodeD[n].getId())
         #print(l)
-        
+
         x =myalgo.TSP(l)
         #print("tsp:", x )
         t1 = x[1] < 10
         self.assertTrue(t1)
 
 
-        myalgo.save_to_json("myjson4node")
+
 
 
         # testing dijsktra
@@ -121,10 +142,17 @@ class MyTestCase(unittest.TestCase):
         #print("center:", x5)
         self.assertEqual(40, x5[0])
 
+
+
+        # test plot
         myalgo.plot_graph()
+        algo0.plot_graph()
         algo1.plot_graph()
-
-
-
+        algo2.plot_graph()
+        algo3.plot_graph()
+        algo4.plot_graph()
+        algo5.plot_graph()
+        algo6.plot_graph()
+        algo7.plot_graph()
 if __name__ == '__main__':
     unittest.main()

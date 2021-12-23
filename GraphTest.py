@@ -110,6 +110,9 @@ class MyTestCase(unittest.TestCase):
 
 
 
+        # check repr of graph
+        print(g)
+
 
 if __name__ == '__main__':
     unittest.main()

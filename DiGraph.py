@@ -1,5 +1,5 @@
-from random import random
-
+import random
+from random import uniform
 from Edges import Edges
 from Node import Node
 from src.GraphInterface import GraphInterface
@@ -14,7 +14,12 @@ class DiGraph (GraphInterface):
         self.edgeD = dict()
         self.mc = 0
 
-
+    def __repr__(self):
+        m1=str(self.mc)
+        m = str("mc: " )
+        n = str(self.nodeD)
+        e = str(self.edgeD)
+        return "mc: "+m1+"\nnodeD"+n+"\nedegD: "+e
 
     def v_size(self) -> int:
         return len(self.nodeD)
@@ -73,9 +78,9 @@ class DiGraph (GraphInterface):
             pass
         else:
             if pos == None:
-                x = random.uniform(0,10)
-                y = random.uniform(0,10)
-                z= 0.0
+                x = random.random()
+                y = random.random()
+                z = random.random()
                 n1 = Node(x, y, z, node_id)
                 self.nodeD[node_id] = n1
             else:

@@ -17,7 +17,9 @@ from src.GraphAlgoInterface import GraphAlgoInterface
 
 class GraphAlgo (GraphAlgoInterface):
 
-    def __init__(self, g):
+    def __init__(self, g: DiGraph=None):
+        if g == None:
+            g=DiGraph()
         self.graph = g
 
     def get_graph(self) -> GraphInterface:
@@ -28,14 +30,27 @@ class GraphAlgo (GraphAlgoInterface):
             f = open(file_name)
             data = json.load(f)
             #self.Graph = self.Graph.init_()
-            for i in data["Nodes"]:
-                n = (i["pos"])
-                n: cast(string, n)  # cast it to string
-                m = n.split(',')  # spliting to nodes
-                print(m)
-                pos = (float(m[0]), float(m[1]), float(m[2]))
-                print(pos)
-                self.graph.add_node(i["id"], pos)
+            n=data["Nodes"]
+            pos1 = False
+            for keys in n:
+                if "pos" in keys:
+                    pos1 = True
+            #print( "printing ",i)
+            # if i[0]!="pos":
+            #      for i in data["Nodes"]:
+            #          self.graph.add_node(i["id"])
+            if pos1==False:
+                for i in data["Nodes"]:
+                      self.graph.add_node(i["id"])
+            else:
+                for i in data["Nodes"]:
+                    n = (i["pos"])
+                    n: cast(string, n)  # cast it to string
+                    m = n.split(',')  # spliting to nodes
+                   # print(m)
+                    pos = (float(m[0]), float(m[1]), float(m[2]))
+                    #print(pos)
+                    self.graph.add_node(i["id"], pos)
             for i in data["Edges"]:
                 self.graph.add_edge(i["src"], i["dest"], i["w"])
             return True
@@ -119,7 +134,9 @@ class GraphAlgo (GraphAlgoInterface):
         #raise NotImplementedError
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
-        n_list = node_lst
+        n_list = []
+        for i in node_lst:
+            n_list.append(i)
         dubD =dict()
         listD=dict()
         for n in node_lst:
@@ -140,7 +157,7 @@ class GraphAlgo (GraphAlgoInterface):
         for outer in dubD:
             m=dubD[outer]
             for inner in m:
-                if inner[0] != inner[1]:
+                if (inner[0] != inner[1]) and (inner[0] in node_lst) and (inner[1] in node_lst) :
                     if m[inner] < small:
                         small = m[inner]
                         in1 = inner
@@ -163,20 +180,22 @@ class GraphAlgo (GraphAlgoInterface):
                 flooat=flooat+dist1
                 l=listD[end][(end, new)]
                 count = 0
-                for x in l:
-                    if x not in liist:
-                        liist.insert(count, x)
-                        count=count+1
-                    if x in n_list:
-                        n_list.remove(x)
+                x =len(l)
+                for i in range (0,x):
+                    # if i< x-1 :
+                    liist.insert(count, l[i])
+                    count=count+1
+                    if l[i] in n_list:
+                        n_list.remove(l[i])
             else:
                 flooat=flooat+dist2
                 l = listD[new][(new,begin)]
-                for x in l:
-                    if x not in liist:
-                        liist.append(x)
-                    if x in n_list:
-                        n_list.remove(x)
+                x = len(l)
+                for i in range(0,x):
+                    # if i >= 1:
+                    liist.append(l[i])
+                    if l[i] in n_list:
+                        n_list.remove(l[i])
 
         ans= (liist, flooat)
         return ans
@@ -252,37 +271,30 @@ class GraphAlgo (GraphAlgoInterface):
        # print(listx1,listy1,listx2, listy2)
         lennode=len(listx)
         lenedge=len(listx1)
-        figure(figsize=(8,5))
-        for i in range (0, lennode):
-            plt.plot(listx[i], listy[i], markersize=10, marker="o", color="blue")
-            plt.text(listx[i], listy[i], listid[i], color='red', fontsize=16, fontstyle="normal")
-
-        for i in range(0, lenedge):
-            plt.annotate("", xy=(listx1[i], listy1[i]), xytext=(listx2[i], listy2[i]), arrowprops=dict(arrowstyle="<-"))
 
 
 
+        figure(figsize=(10,7))
+        plt.rcParams['axes.facecolor'] = 'gray'
+        # ax= plt.subplots(1,1)
+        # ax.set_xlabel('x axis')
+        # ax.set_ylabel('y axis')
 
+        if(lennode>1000 or lenedge>2000):
+            for i in range (0, lennode):
+                plt.plot(listx[i], listy[i], markersize=10, marker="o", color="blue")
+                plt.text(listx[i], listy[i], listid[i], color='red', fontsize=16, fontstyle="normal")
+            for i in range(0, lenedge):
+                plt.annotate("", xy=(listx1[i], listy1[i]), xytext=(listx2[i], listy2[i]), arrowprops=dict(arrowstyle="<-",edgecolor="yellow", lw=1.5))
+        else:
+            for i in range (0, lennode):
+                plt.plot(listx[i], listy[i], markersize=10, marker="o", color="blue")
+            for i in range(0, lenedge):
+                plt.annotate("", xy=(listx1[i], listy1[i]), xytext=(listx2[i], listy2[i]), arrowprops=dict(arrowstyle="<-",edgecolor="yellow", lw=1.5))
+            for i in range(0, lennode):
+                plt.text(listx[i], listy[i], listid[i], color='red', fontsize=16, fontstyle="normal")
 
-        # plt.plot(x,y,markersize= 10, marker = "o" , color = "blue" )
-        # for dest in self.graph.edgeD[key.id]:
-        #     his_x,his_y = self.graph.edgeD[dest].pos
-        #     plt.annotate("",xy = (x,y),xytext = (his_x,his_y),arrowprops=dict(arrowstyle="<-") )
         plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         #raise NotImplementedError
 
