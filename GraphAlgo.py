@@ -6,7 +6,7 @@ import random
 from queue import PriorityQueue
 
 from matplotlib import pyplot as plt
-
+from matplotlib.pyplot import figure
 from DiGraph import DiGraph
 from src import GraphInterface
 from src.GraphAlgoInterface import GraphAlgoInterface
@@ -32,7 +32,9 @@ class GraphAlgo (GraphAlgoInterface):
                 n = (i["pos"])
                 n: cast(string, n)  # cast it to string
                 m = n.split(',')  # spliting to nodes
-                pos = (m[0], m[1], m[2])
+                print(m)
+                pos = (float(m[0]), float(m[1]), float(m[2]))
+                print(pos)
                 self.graph.add_node(i["id"], pos)
             for i in data["Edges"]:
                 self.graph.add_edge(i["src"], i["dest"], i["w"])
@@ -48,50 +50,38 @@ class GraphAlgo (GraphAlgoInterface):
         #raise NotImplementedError
 
     def save_to_json(self, file_name: str) -> bool:
-        j = json.dumps(str)
-        # try:
-        #     gra = dict()
-        #     gra['Nodes'] = []
-        #     gra['Edges'] = []
-        #
-        #     n = self.graph.nodeD
-        #     for no in n:
-        #         x=str(n[no].getX())
-        #         y=str(n[no].getY())
-        #         z=str(n[no].getZ())
-        #         pos =x,y,z
-        #         gra['Nodes'].append({'id': n[no].getId(), 'pos': pos})
+        dict = {"Nodes": [], "Edges": []}
+        n =self.graph.nodeD
+        # for node in self.graph.nodeD.values():
+        #     id = node.getId()
+        #     pos = f'{node.getX()},{node.getY()},{node.getY()}'
+        #     dict['Nodes'].append({'id': id, 'pos': pos})
+        for no in n:
+            id =n[no].getId()
+            x = str(n[no].getX())
+            c1 =str(",")
+            y = str(n[no].getY())
+            z = str(n[no].getZ())
+            pos = x + c1 + y + c1 + z
+            #pos = f'{ n[no].getX(),n[no].getY(),n[no].getZ()}'
+            #pos = [n[no].getX(),n[no].getY(),n[no].getZ()]
+            dict['Nodes'].append({'id': id, 'pos': pos})
+            #     pos = f'{node.getX()},{node.getY()},{node.getY()}'
+        # for edge in self.graph.edgeD:
+        #     dict['Edges':].append({'src': edge.getsrc(), 'dest': edge.getdest(), 'w': edge.getweight()})
+        e = self.graph.edgeD
+        for ed in e:
+            dict['Edges'].append({'src': e[ed].getsrc() ,'dest': e[ed].getdest(), 'w': e[ed].getweight()})
+
+        try:
+            with open(file_name, 'w') as f:
+                json.dump(dict, indent=2, fp=f)
+            return True
+        except Exception as e:
+            print(e)
+            return False
 
 
-
-
-
-        #     # nodes = json.dumps(list(self.graph.nodeD.values()),default=lambda o: o.__dict__, sort_keys=True, indent=4)
-        #     # lstN = json.loads(nodes)
-        #     # print(lstN)
-        #     # for d in lstN:
-        #     #     del d["tag"]
-        #     #     del d["into"]
-        #     #     del d["outfrom"]
-        #     #     del d["in1"]
-        #     #     del d["out1"]
-        #
-        #     #
-        #     e = self.graph.edgeD
-        #     for ed in e:
-        #         gra['Edges'].append({'src': e[ed].getsrc() ,'dest': e[ed].getdest(), 'w': e[ed].getweight()})
-        #
-        #
-        #     print(gra)
-        #     with open(file_name, 'w') as outfile:
-        #         json.dump(gra, outfile, indent=2)
-        #         #json.dump(gra, outfile)
-        #     return True
-        # except Exception as e:
-        #     print(e)
-        #     print("couldn't save the file")
-        #     return False
-        #
         """
         Saves the graph in JSON format to a file
         @param file_name: The path to the out file
@@ -126,7 +116,7 @@ class GraphAlgo (GraphAlgoInterface):
         More info:
         https://en.wikipedia.org/wiki/Dijkstra's_algorithm
         """
-        raise NotImplementedError
+        #raise NotImplementedError
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
         n_list = node_lst
@@ -143,8 +133,8 @@ class GraphAlgo (GraphAlgoInterface):
             # for p1 in l:
             #     listD[p1] = l.get[p1]
 
-        print(dubD)
-        print(listD)
+        #print(dubD)
+        #print(listD)
 
         small = float("inf")
         for outer in dubD:
@@ -155,7 +145,7 @@ class GraphAlgo (GraphAlgoInterface):
                         small = m[inner]
                         in1 = inner
                         out1= outer
-        print(small, out1, in1)
+        #print(small, out1, in1)
 
         flooat= small
         liist=[]
@@ -214,7 +204,7 @@ class GraphAlgo (GraphAlgoInterface):
                     big = d
 
             short_long[a] = big
-        print(short_long)
+        #print(short_long)
         small = (None, float("inf"))
         for key in short_long:
             if short_long[key] < small[1]:
@@ -242,16 +232,43 @@ class GraphAlgo (GraphAlgoInterface):
         listx =[]
         listy = []
         listid =[]
-        for cor in self.graph.nodeD.values():
-            i=1
+        for cor in n:
+            listx.append(n[cor].getX())
+            listy.append(n[cor].getY())
+            listid.append(n[cor].getId())
+       # print(listx ,listy , listid)
+        listx1 = []
+        listx2 = []
+        listy1 = []
+        listy2 = []
+        for cor in e:
+            src = e[cor].getsrc()
+            dest = e[cor].getdest()
+            listx1.append(n[src].getX())
+            listy1.append(n[src].getY())
+            listx2.append(n[dest].getX())
+            listy2.append(n[dest].getY())
+
+       # print(listx1,listy1,listx2, listy2)
+        lennode=len(listx)
+        lenedge=len(listx1)
+        figure(figsize=(8,5))
+        for i in range (0, lennode):
+            plt.plot(listx[i], listy[i], markersize=10, marker="o", color="blue")
+            plt.text(listx[i], listy[i], listid[i], color='red', fontsize=16, fontstyle="normal")
+
+        for i in range(0, lenedge):
+            plt.annotate("", xy=(listx1[i], listy1[i]), xytext=(listx2[i], listy2[i]), arrowprops=dict(arrowstyle="<-"))
+
+
+
 
 
         # plt.plot(x,y,markersize= 10, marker = "o" , color = "blue" )
-        # plt.text(x,y,str(key.id), color = "red", fontsize=12)
         # for dest in self.graph.edgeD[key.id]:
         #     his_x,his_y = self.graph.edgeD[dest].pos
         #     plt.annotate("",xy = (x,y),xytext = (his_x,his_y),arrowprops=dict(arrowstyle="<-") )
-        # plt.show()
+        plt.show()
 
 
 
@@ -431,6 +448,6 @@ class GraphAlgo (GraphAlgoInterface):
             d = e.getdest()
             w = e.getweight()
             gr.add_edge(d, s, w)
-        print("flipped nodes:\n", gr.nodeD)
-        print("flipped edges:\n", gr.edgeD)
+       # print("flipped nodes:\n", gr.nodeD)
+       # print("flipped edges:\n", gr.edgeD)
         return gr

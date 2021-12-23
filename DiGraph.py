@@ -1,3 +1,5 @@
+from random import random
+
 from Edges import Edges
 from Node import Node
 from src.GraphInterface import GraphInterface
@@ -70,11 +72,18 @@ class DiGraph (GraphInterface):
         if node_id in self.nodeD:
             pass
         else:
-            x = pos[0]
-            y = pos[1]
-            z = pos[2]
-            n1 = Node(x, y, z, node_id)
-            self.nodeD[node_id] = n1
+            if pos == None:
+                x = random.uniform(0,10)
+                y = random.uniform(0,10)
+                z= 0.0
+                n1 = Node(x, y, z, node_id)
+                self.nodeD[node_id] = n1
+            else:
+                x = pos[0]
+                y = pos[1]
+                z = pos[2]
+                n1 = Node(x, y, z, node_id)
+                self.nodeD[node_id] = n1
             if node_id in self.nodeD:
                 self.mc = self.mc+1
                 return True
