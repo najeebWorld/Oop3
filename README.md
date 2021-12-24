@@ -42,3 +42,8 @@ this class was given to us to make syre that we implemented all the functions
 | 1000 Nodes  |87 ms       |1 min 33 sec|   630 ms        |2 sec 124 ms     |  235 ms|  235 ms  |
 | 10000 Nodes |4 sec 748 ms|  ---    |22 sec 313ms     |1 min 29 sec     |2 sec 105 ms|2 sec 105 ms|
 | 100000 Nodes|53 se 324 ms|   ---     |   ---    |   ---       |53 sec 324 ms|53 sec 324 ms|
+
+
+---------------------------------
+### uml of the classses
+![uml](https://github.com/najeebWorld/Oop3/blob/main/uml.png)
