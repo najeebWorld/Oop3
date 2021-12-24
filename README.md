@@ -31,3 +31,14 @@ we needed to implement: get_graph, load_from_json, save_to_json, shortest_path, 
 #### main
 this class was given to us to make syre that we implemented all the functions
     
+---------------------------
+### running time of the functions
+<br>
+
+|   	      |shortestpath|center      |tsp (group of 5) |tsp (group of 20)|load    |      save|  
+|:-----------:|:----------:|:----------:|:-------------:  |:---------------:|:------:|:--------:|
+| 10 Nodes    | 1 ms       |1 ms        |     2ms         | ---            |  2 ms  |  2 ms    |             
+| 100 Nodes   |  2 ms      |   1 ms     |1 ms (list not connected)|2 ms (list not connected)|  5 ms  |   5 ms    |
+| 1000 Nodes  |87 ms       |1 min 33 sec|   630 ms        |2 sec 124 ms     |  235 ms|  235 ms  |
+| 10000 Nodes |4 sec 748 ms|  ---    |22 sec 313ms     |1 min 29 sec     |2 sec 105 ms|2 sec 105 ms|
+| 100000 Nodes|53 se 324 ms|   ---     |   ---    |   ---       |53 sec 324 ms|53 sec 324 ms|
