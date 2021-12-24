@@ -100,13 +100,15 @@ class DiGraph (GraphInterface):
 
         if node_id in self.nodeD:
             remove = []
-            #for r in self.nodeD.get(node_id).outfrom:
             for r in self.nodeD.get(node_id).out1:
-                x=(node_id, r)
+                x =(node_id, r)
+                y = self.nodeD[r].getIn1()
+                del y[node_id]
                 remove.append(x)
-            #for r in self.nodeD.get(node_id).into:
             for r in self.nodeD.get(node_id).in1:
                 x = (r, node_id)
+                y = self.nodeD[r].getOut1()
+                del y[node_id]
                 remove.append(x)
             for r in remove:
                 del self.edgeD[r]

@@ -33,6 +33,10 @@ class GraphAlgo (GraphAlgoInterface):
     def load_from_json(self, file_name: str) -> bool:
         """
             Loads a graph from a json file.
+            we will check if the nodes in the json have a pos,
+            if they do we will create  the nodes with the id and pos,
+            if they don't have a pos we will make a pos with random number between 0 and 1.
+            then we will add the edges
             the run time is O(|v|+|e|) v=vertexes, e=edges .
             @param file_name: The path to the json file
             @returns True if the loading was successful, False o.w.
@@ -187,6 +191,7 @@ class GraphAlgo (GraphAlgoInterface):
             l = pair[1]
             listD[n] = l
 
+        liist = []
         small = float("inf")
         for outer in dubD:
             m=dubD[outer]
@@ -195,12 +200,18 @@ class GraphAlgo (GraphAlgoInterface):
                     if m[inner] < small:
                         small = m[inner]
                         in1 = inner
+                        out =outer
+                        liist=listD[out][in1]
+        if liist==[]:
+            return (float('inf'), [])
 
 
         flooat= small
-        liist=[]
-        liist.append(in1[0])
-        liist.append(in1[1])
+
+        # a =listD[out][in1]
+        # print(a)
+        #liist.append(in1[0])
+        #liist.append(in1[1])
         n_list.remove(in1[0])
         n_list.remove(in1[1])
         while len(n_list) > 0:
@@ -217,9 +228,9 @@ class GraphAlgo (GraphAlgoInterface):
                 count = 0
                 x =len(l)
                 for i in range (0,x):
-                    # if i< x-1 :
-                    liist.insert(count, l[i])
-                    count=count+1
+                    if i >= 1 :
+                        liist.insert(count, l[i])
+                        count=count+1
                     if l[i] in n_list:
                         n_list.remove(l[i])
             else:
@@ -227,8 +238,8 @@ class GraphAlgo (GraphAlgoInterface):
                 l = listD[new][(new,begin)]
                 x = len(l)
                 for i in range(0,x):
-                    # if i >= 1:
-                    liist.append(l[i])
+                    if i < x-1:
+                        liist.append(l[i])
                     if l[i] in n_list:
                         n_list.remove(l[i])
 

@@ -7,14 +7,15 @@ class MyTestCase(unittest.TestCase):
     def test_something(self):
 
         myalgo = GraphAlgo()
-        myalgo.load_from_json("100000.json")
+        myalgo.load_from_json("100new.json")
+
 
 
         # load and save
-        # myalgo.load_from_json("100000.json")
-        # myalgo.save_to_json("100000copy.json")
+        # myalgo.load_from_json("100new.json")
+        # myalgo.save_to_json("100copy.json")
         # my_algo_new =GraphAlgo()
-        # my_algo_new.load_from_json("100000copy.json")
+        # my_algo_new.load_from_json("100copy.json")
         # ans = True
         # for n in myalgo.graph.nodeD:
         #     if myalgo.graph.nodeD[n].getId() != my_algo_new.graph.nodeD[n].getId():
@@ -40,7 +41,7 @@ class MyTestCase(unittest.TestCase):
         # lenn =len(myalgo.graph.nodeD)
         # liist=random.sample(range(0, lenn), 2)
         # print(liist)
-        # x= myalgo.shortest_path(1, 1)
+        # x= myalgo.shortest_path(liist[0], liist[1])
         # print(x)
 
 
@@ -56,11 +57,11 @@ class MyTestCase(unittest.TestCase):
 
 
         # tsp
-        # lenn =len(myalgo.graph.nodeD)
-        # liist=random.sample(range(0, lenn), 5)
-        # print(liist)
-        # ans =myalgo.TSP(liist)
-        # print("ans:" ,ans)
+        lenn =len(myalgo.graph.nodeD)
+        liist=random.sample(range(0, lenn),20)
+        print(liist)
+        ans =myalgo.TSP([64,68,8])
+        print("ans:" ,ans)
 
 
 
@@ -73,7 +74,7 @@ class MyTestCase(unittest.TestCase):
 
 
         # plot
-        myalgo.plot_graph()
+        # myalgo.plot_graph()
 
 
 
