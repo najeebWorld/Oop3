@@ -145,14 +145,14 @@ class MyTestCase(unittest.TestCase):
 
 
         # test plot
-        # myalgo.plot_graph()
-        # algo0.plot_graph()
-        # algo1.plot_graph()
-        # algo2.plot_graph()
-        # algo3.plot_graph()
-        # algo4.plot_graph()
-        # algo5.plot_graph()
-        # algo6.plot_graph()
-        # algo7.plot_graph()
+        myalgo.plot_graph()
+        algo0.plot_graph()
+        algo1.plot_graph()
+        algo2.plot_graph()
+        algo3.plot_graph()
+        algo4.plot_graph()
+        algo5.plot_graph()
+        algo6.plot_graph()
+        algo7.plot_graph()
 if __name__ == '__main__':
     unittest.main()

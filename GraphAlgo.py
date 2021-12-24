@@ -4,7 +4,8 @@ import string
 from typing import List , cast
 
 from queue import PriorityQueue
-
+import random
+from random import uniform
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import figure
 from DiGraph import DiGraph
@@ -304,8 +305,18 @@ class GraphAlgo (GraphAlgoInterface):
         listy = []
         listid =[]
         for cor in n:
-            listx.append(n[cor].getX())
-            listy.append(n[cor].getY())
+            if n[cor].getX()==None:
+               x= random.random()
+               n[cor].setX(x)
+               listx.append(x)
+            else:
+                listx.append(n[cor].getX())
+            if n[cor].getY()==None:
+               y= random.random()
+               n[cor].setY(y)
+               listy.append(y)
+            else:
+                listy.append(n[cor].getY())
             listid.append(n[cor].getId())
        # print(listx ,listy , listid)
         listx1 = []

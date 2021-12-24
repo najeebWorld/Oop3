@@ -78,9 +78,12 @@ class DiGraph (GraphInterface):
             pass
         else:
             if pos == None:
-                x = random.random()
-                y = random.random()
-                z = random.random()
+                # x = random.random()
+                # y = random.random()
+                # z = random.random()
+                x = None
+                y = None
+                z = None
                 n1 = Node(x, y, z, node_id)
                 self.nodeD[node_id] = n1
             else:

@@ -7,7 +7,7 @@ class MyTestCase(unittest.TestCase):
     def test_something(self):
 
         myalgo = GraphAlgo()
-        myalgo.load_from_json("100new.json")
+        myalgo.load_from_json("my graph1.json")
 
 
 
@@ -57,11 +57,11 @@ class MyTestCase(unittest.TestCase):
 
 
         # tsp
-        lenn =len(myalgo.graph.nodeD)
-        liist=random.sample(range(0, lenn),20)
-        print(liist)
-        ans =myalgo.TSP([64,68,8])
-        print("ans:" ,ans)
+        # lenn =len(myalgo.graph.nodeD)
+        # liist=random.sample(range(0, lenn),20)
+        # print(liist)
+        # ans =myalgo.TSP([64,68,8])
+        # print("ans:" ,ans)
 
 
 
@@ -74,7 +74,7 @@ class MyTestCase(unittest.TestCase):
 
 
         # plot
-        # myalgo.plot_graph()
+        myalgo.plot_graph()
 
 
 
