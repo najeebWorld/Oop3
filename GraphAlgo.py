@@ -51,19 +51,26 @@ class GraphAlgo (GraphAlgoInterface):
             pos1 = False
             for keys in n:
                 if "pos" in keys:
-                    pos1 = True
-            if pos1==False:
-                for i in data["Nodes"]:
-                      self.graph.add_node(i["id"])
-            else:
-                for i in data["Nodes"]:
-                    n = (i["pos"])
+                    n = (keys["pos"])
                     n: cast(string, n)  # cast it to string
                     m = n.split(',')  # spliting to nodes
                     pos = (float(m[0]), float(m[1]), float(m[2]))
-                    self.graph.add_node(i["id"], pos)
-            for i in data["Edges"]:
-                self.graph.add_edge(i["src"], i["dest"], i["w"])
+                    self.graph.add_node(keys["id"], pos)
+                else:
+                    self.graph.add_node(keys["id"])
+            #         pos1 = True
+            # if pos1 == False:
+            #     for i in data["Nodes"]:
+            #           self.graph.add_node(i["id"])
+            # else:
+            #     for i in data["Nodes"]:
+            #         n = (i["pos"])
+            #         n: cast(string, n)  # cast it to string
+            #         m = n.split(',')  # spliting to nodes
+            #         pos = (float(m[0]), float(m[1]), float(m[2]))
+            #         self.graph.add_node( i["id"], pos)
+            for j in data["Edges"]:
+                self.graph.add_edge(j["src"], j["dest"], j["w"])
             return True
         except Exception as e:
             print(e)
@@ -85,13 +92,16 @@ class GraphAlgo (GraphAlgoInterface):
         dict = {"Nodes": [], "Edges": []}
         n =self.graph.nodeD
         for no in n:
-            id =n[no].getId()
-            x = str(n[no].getX())
-            c1 =str(",")
-            y = str(n[no].getY())
-            z = str(n[no].getZ())
-            pos = x + c1 + y + c1 + z
-            dict['Nodes'].append({'id': id, 'pos': pos})
+            id = n[no].getId()
+            if n[no].getPos() != None:
+                x = str(n[no].getX())
+                c1 =str(",")
+                y = str(n[no].getY())
+                z = str(n[no].getZ())
+                pos = x + c1 + y + c1 + z
+                dict['Nodes'].append({'id': id, 'pos': pos})
+            else:
+                dict['Nodes'].append({'id': id})
         e = self.graph.edgeD
         for ed in e:
             dict['Edges'].append({'src': e[ed].getsrc() ,'dest': e[ed].getdest(), 'w': e[ed].getweight()})
@@ -211,8 +221,8 @@ class GraphAlgo (GraphAlgoInterface):
 
         # a =listD[out][in1]
         # print(a)
-        #liist.append(in1[0])
-        #liist.append(in1[1])
+        liist.append(in1[0])
+        liist.append(in1[1])
         n_list.remove(in1[0])
         n_list.remove(in1[1])
         while len(n_list) > 0:
@@ -304,20 +314,40 @@ class GraphAlgo (GraphAlgoInterface):
         listx =[]
         listy = []
         listid =[]
+        a = 0
+        b = 1
         for cor in n:
-            if n[cor].getX()==None:
-               x= random.random()
-               n[cor].setX(x)
-               listx.append(x)
+            # if n[cor].getX()==None:
+            #    x= random.random()
+            #    n[cor].setX(x)
+            #    listx.append(x)
+            # else:
+            #     listx.append(n[cor].getX())
+            # if n[cor].getY()==None:
+            #    y= random.random()
+            #    n[cor].setY(y)
+            #    listy.append(y)
+            # else:
+            #     listy.append(n[cor].getY())
+            # listid.append(n[cor].getId())
+
+            if n[cor].getPos()==None:
+                list1 = [random.uniform(a,b) for x in range(3)]
+                p=(list1[0],list1[1],list1[2])
+                n[cor].setPos(p)
+                listx.append(list1[0])
+                listy.append(list1[1])
+                listid.append(n[cor].getId())
             else:
                 listx.append(n[cor].getX())
-            if n[cor].getY()==None:
-               y= random.random()
-               n[cor].setY(y)
-               listy.append(y)
-            else:
+                if n[cor].getX()>b:
+                    b= n[cor].getX()
+                    if n[cor].getX() < a:
+                        a = n[cor].getX()
                 listy.append(n[cor].getY())
-            listid.append(n[cor].getId())
+                if n[cor].getY()<a:
+                    a= n[cor].getY()
+                listid.append(n[cor].getId())
        # print(listx ,listy , listid)
         listx1 = []
         listx2 = []
@@ -516,8 +546,11 @@ class GraphAlgo (GraphAlgoInterface):
         gr = DiGraph()
         for k in graph.nodeD:
             id = graph.nodeD[k].getId()
-            cor = (graph.nodeD[k].getX(), graph.nodeD[k].getY(), graph.nodeD[k].getZ())
-            gr.add_node(id, cor)
+            # if graph.nodeD[k].getPos !=None:
+            #     cor = (graph.nodeD[k].getX(), graph.nodeD[k].getY(), graph.nodeD[k].getZ())
+            #     gr.add_node(id, cor)
+            # else:
+            gr.add_node(id)
         for k in graph.edgeD:
             e = graph.edgeD[k]
             s = e.getsrc()

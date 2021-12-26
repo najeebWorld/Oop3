@@ -1,51 +1,67 @@
 class Node:
 
-    def __init__(self, x: int =None , y: int= None, z: int=None , id: int=None ):
-        self.x = x
-        self.y = y
-        self.z = z
+    # def __init__(self, x: int =None , y: int= None, z: int=None , id: int=None ):
+    #     self.x = x
+    #     self.y = y
+    #     self.z = z
+    #     self.id = id
+    #     self.in1 = dict()
+    #     self.out1 = dict()
+    #     self.tag = 0
+
+    def __init__(self, pos: tuple = None, id: int = None):
+        self.pos = pos
         self.id = id
         self.in1 = dict()
         self.out1 = dict()
         self.tag = 0
 
 
-
-
         # this function returns the id
     def getId(self):
         return self.id
 
+    # this function returns the pos
+    def getPos(self):
+        return self.pos
+
+    # this function sets the pos
+    def setPos(self, tup):
+        self.pos=tup
+
         # this function returns the x
     def getX(self):
-        return self.x
+        x=self.pos[0]
+        return x
 
         # this function returns the y
     def getY(self):
-        return self.y
+        y=self.pos[1]
+        return y
 
         # this function returns the y
     def getZ(self):
-        return self.z
+        z= self.pos[2]
+        return z
 
-        # this function set new value of x
-    def setX(self,x):
-       self.x = x
-
-        # this function set new value of y
-    def setY(self,y):
-        self.y = y
-
-        # this function set new value of x
-    def setZ(self,z):
-        self.z = z
+    #     # this function set new value of x
+    # def setX(self,x):
+    #    self.x = x
+    #
+    #     # this function set new value of y
+    # def setY(self,y):
+    #     self.y = y
+    #
+    #     # this function set new value of x
+    # def setZ(self,z):
+    #     self.z = z
 
          #this function return the dictionary of nodes in
-    def getIn1(self) :
+    def getIn1(self):
         return self.in1
 
         # this function return the dictionary of nodes out
-    def getOut1(self) :
+    def getOut1(self):
         return  self.out1
 
 

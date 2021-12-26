@@ -49,7 +49,6 @@ class DiGraph (GraphInterface):
 
     def add_edge(self, id1: int, id2: int, weight: float) -> bool:
         s = (id1, id2)
-        #print(s)
         if s in self.edgeD:
             pass
         else:
@@ -58,9 +57,7 @@ class DiGraph (GraphInterface):
                 self.edgeD[s] = e1
 
                 # add to the src and dest nodes the edge
-                #self.nodeD.get(id1).outfrom[s] = e1
                 self.nodeD.get(id1).out1[id2] = weight
-                #self.nodeD.get(id2).into[s] = e1
                 self.nodeD.get(id2).in1[id1]=weight
 
                 if s in self.edgeD:
@@ -77,21 +74,21 @@ class DiGraph (GraphInterface):
         if node_id in self.nodeD:
             pass
         else:
-            if pos == None:
-                # x = random.random()
-                # y = random.random()
-                # z = random.random()
-                x = None
-                y = None
-                z = None
-                n1 = Node(x, y, z, node_id)
-                self.nodeD[node_id] = n1
-            else:
-                x = pos[0]
-                y = pos[1]
-                z = pos[2]
-                n1 = Node(x, y, z, node_id)
-                self.nodeD[node_id] = n1
+            # if pos == None:
+            #     # x = random.random()
+            #     # y = random.random()
+            #     # z = random.random()
+            #     # x = None
+            #     # y = None
+            #     # z = None
+            #     n1 = Node(pos, node_id)
+            #     self.nodeD[node_id] = n1
+            # else:
+                # x = pos[0]
+                # y = pos[1]
+                # z = pos[2]
+            n1 = Node(pos, node_id)
+            self.nodeD[node_id] = n1
             if node_id in self.nodeD:
                 self.mc = self.mc+1
                 return True
@@ -131,9 +128,7 @@ class DiGraph (GraphInterface):
         s = (node_id1, node_id2)
         if s in self.edgeD:
             del self.edgeD[s]
-            #del self.nodeD.get(node_id1).outfrom[s]
             del self.nodeD.get(node_id1).out1[node_id2]
-            #del self.nodeD.get(node_id2).into[s]
             del self.nodeD.get(node_id2).in1[node_id1]
             if s in self.edgeD:
                 return False

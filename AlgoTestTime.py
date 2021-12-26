@@ -1,5 +1,7 @@
 import unittest
 import random
+
+from DiGraph import DiGraph
 from GraphAlgo import GraphAlgo
 
 
@@ -69,12 +71,18 @@ class MyTestCase(unittest.TestCase):
         # self.assertTrue(a1)
 
 
-
-
+        g = DiGraph()
+        for x in range (0,50):
+            g.add_node(x)
+        for x in range (0,100):
+            list1=random.sample(range(0, 50),30)
+            g.add_edge(list1[0],list1[1],list1[2])
+            
+        newalgo=GraphAlgo(g)
 
 
         # plot
-        myalgo.plot_graph()
+        newalgo.plot_graph()
 
 
 
