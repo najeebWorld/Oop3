@@ -161,18 +161,15 @@ class GraphAlgo (GraphAlgoInterface):
            we will create 2 dictionaries, 1 for the length the other for the list.
            we will run dijesktra on all the nodes in the list.
            each time we run dijesktra we will get a tuple with 2 dictionaries
-           we will enter these dictionaries into the dictionaries we created
-           we will find the pair of nodes in the list with the shortest distance
-           we will create a list and add the pair in, inorder,
-           and we wil create a variable to hold the distance.
-           we will take the pair out of the copy of the list.
-           while the copy of the list isn't empty
-           we will take the first value of the list and check if its better to add it in the beginning of the list of nodes or at the end.
-           we will check if its better in beginning or end by finding the distance in the dictiory
-           we will add the the list of nodes that represents the path to the respective side of the list.
-           and remove the nodes that we added that were from the given list from the copy.
-           we will return the distance and the list
-           the run time is O(k*|v|^2) v=vertexes k=size of the list of nodes
+           we will enter these dictionaries into the dictionaries we created.
+           we will create a variable small and liist.
+           while the length of the copied list is bigger then 0
+           we will find the shortest distance between the last node in the liist and the nodes that we havent visted yet.
+           if liist is empty we will check from te first node in the copied list to all othres.
+           as we find the shortest path we will update the liist to have the full path and update small to be the length of the path.
+           and we will make sure to remove from the copied list all the nodes we have beeen to.
+           we will then return the list and the length of the list
+           the run time is O(k^2*|v|^2) v=vertexes k=size of the list of nodes
 
           :param node_lst: A list of nodes id's
           :return: A list of the nodes id's in the path, and the overall distance
