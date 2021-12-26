@@ -144,8 +144,11 @@ class GraphAlgo (GraphAlgoInterface):
             return (0,[id1])
         x = self.dijasktra(id1)
         l=(id1, id2)
+        if x[0].get(l)==float("inf"):
+            ans = (x[0].get(l), [])
+            return ans
         ans=(x[0].get(l),x[1].get(l))
-        return ans;
+        return ans
 
         #raise NotImplementedError
 
@@ -193,6 +196,7 @@ class GraphAlgo (GraphAlgoInterface):
         if len(node_lst) == 1:
             return (0, node_lst)
 
+
         dubD =dict()
         listD=dict()
         for n in node_lst:
@@ -203,59 +207,94 @@ class GraphAlgo (GraphAlgoInterface):
             listD[n] = l
 
         liist = []
-        small = float("inf")
-        for outer in dubD:
-            m=dubD[outer]
-            for inner in m:
-                if (inner[0] != inner[1]) and (inner[0] in node_lst) and (inner[1] in node_lst) :
-                    if m[inner] < small:
-                        small = m[inner]
-                        in1 = inner
-                        out =outer
-                        liist=listD[out][in1]
-        if liist==[]:
-            return (float('inf'), [])
+        # small = float("inf")
+        small=0
 
-
-        flooat= small
-
-        # a =listD[out][in1]
-        # print(a)
-        liist.append(in1[0])
-        liist.append(in1[1])
-        n_list.remove(in1[0])
-        n_list.remove(in1[1])
+        first = n_list[0]
+        n_list.remove(first)
         while len(n_list) > 0:
-            new = n_list[0]
-            begin = liist[0]
-            end = liist[len(liist)-1]
-            dist1=dubD[end][(end, new)]
-            dist2=dubD[new][(new,begin)]
-            if dist1 == float("inf") and dist2 == float("inf"):
-                return (float("inf"), [])
-            if dist1 < dist2:
-                flooat=flooat+dist1
-                l=listD[end][(end, new)]
-                count = 0
-                x =len(l)
-                for i in range (0,x):
-                    if i >= 1 :
-                        liist.insert(count, l[i])
-                        count=count+1
-                    if l[i] in n_list:
-                        n_list.remove(l[i])
-            else:
-                flooat=flooat+dist2
-                l = listD[new][(new,begin)]
-                x = len(l)
-                for i in range(0,x):
-                    if i < x-1:
-                        liist.append(l[i])
-                    if l[i] in n_list:
-                        n_list.remove(l[i])
+            smaller = float("inf")
+            for x in range(0,len(n_list)):
 
-        ans= (liist, flooat)
-        return ans
+                tup1=(first,n_list[x])
+                if dubD[first][tup1] < smaller:
+                    smaller = dubD[first][tup1]
+                    tup2 = tup1
+
+            small = small+smaller
+            addlist = listD[first][tup2]
+            for x in addlist:
+                if len(liist)==0:
+                    liist.append(x)
+                else:
+                    if liist[len(liist)-1] != x:
+                        liist.append(x)
+
+            for a in liist:
+                if a in n_list:
+                    n_list.remove(a)
+
+            first=liist[len(liist)-1]
+
+        return(liist,small)
+
+
+
+
+
+        #
+        # for outer in dubD:
+        #     m=dubD[outer]
+        #     for inner in m:
+        #         if (inner[0] != inner[1]) and (inner[0] in node_lst) and (inner[1] in node_lst) :
+        #             if m[inner] < small:
+        #                 small = m[inner]
+        #                 in1 = inner
+        #                 out =outer
+        #                 liist=listD[out][in1]
+        # if liist==[]:
+        #     return (float('inf'), [])
+        #
+        #
+        # flooat= small
+        #
+        # # a =listD[out][in1]
+        # # print(a)
+        # liist.append(in1[0])
+        # liist.append(in1[1])
+        # n_list.remove(in1[0])
+        # n_list.remove(in1[1])
+        # while len(n_list) > 0:
+        #     new = n_list[0]
+        #     begin = liist[0]
+        #     end = liist[len(liist)-1]
+        #     dist1=dubD[end][(end, new)]
+        #     dist2=dubD[new][(new,begin)]
+        #     if dist1 == float("inf") and dist2 == float("inf"):
+        #         return (float("inf"), [])
+        #     if dist1 < dist2:
+        #         flooat=flooat+dist1
+        #         l=listD[end][(end, new)]
+        #         count = 0
+        #         x =len(l)
+        #         for i in range (0,x):
+        #             if i >= 1 :
+        #                 liist.insert(count, l[i])
+        #                 count=count+1
+        #             if l[i] in n_list:
+        #                 n_list.remove(l[i])
+        #     else:
+        #         flooat=flooat+dist2
+        #         l = listD[new][(new,begin)]
+        #         x = len(l)
+        #         for i in range(0,x):
+        #             if i < x-1:
+        #                 liist.append(l[i])
+        #             if l[i] in n_list:
+        #                 n_list.remove(l[i])
+        #
+        # ans= (liist, flooat)
+        # return ans
 
 
     def centerPoint(self) -> (int, float):
@@ -317,19 +356,6 @@ class GraphAlgo (GraphAlgoInterface):
         a = 0
         b = 1
         for cor in n:
-            # if n[cor].getX()==None:
-            #    x= random.random()
-            #    n[cor].setX(x)
-            #    listx.append(x)
-            # else:
-            #     listx.append(n[cor].getX())
-            # if n[cor].getY()==None:
-            #    y= random.random()
-            #    n[cor].setY(y)
-            #    listy.append(y)
-            # else:
-            #     listy.append(n[cor].getY())
-            # listid.append(n[cor].getId())
 
             if n[cor].getPos()==None:
                 list1 = [random.uniform(a,b) for x in range(3)]

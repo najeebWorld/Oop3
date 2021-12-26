@@ -15,11 +15,16 @@ class DiGraph (GraphInterface):
         self.mc = 0
 
     def __repr__(self):
-        m1=str(self.mc)
-        m = str("mc: " )
-        n = str(self.nodeD)
-        e = str(self.edgeD)
-        return "mc: "+m1+"\nnodeD"+n+"\nedegD: "+e
+        # m1=str(self.mc)
+        # m = str("mc: " )
+        # n = str(self.nodeD)
+        # e = str(self.edgeD)
+        n = len(self.nodeD)
+        v = len(self.edgeD)
+        n1=str(n)
+        v1=str(v)
+
+        return "|V|="+n1+" , |E|="+v1
 
     def v_size(self) -> int:
         return len(self.nodeD)

@@ -16,6 +16,20 @@ class Node:
         self.out1 = dict()
         self.tag = 0
 
+    def __repr__(self):
+        out =" |edges out| "
+        in2 =" |edges in| "
+        inlen=len(self.in1)
+        outlen=len(self.out1)
+        id=self.id
+        strin=str(inlen)
+        strout=str(outlen)
+        strid=str(id)
+        return strid+":"+out+strout+in2+strin
+
+
+
+
 
         # this function returns the id
     def getId(self):
@@ -71,6 +85,10 @@ class Node:
 
     def settag(self,t):
         self.tag=t;
+
+
+
+
 
 
 
