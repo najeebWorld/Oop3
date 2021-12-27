@@ -12,10 +12,10 @@ ______________________________________________________
 # how to run the project
 
 First you will need to make sure that you have python downloaded on your computer.
-<br>If they it isnt downloaded here is the link to download:
+<br>If it isnt downloaded here is the link to download:
 <br>python: https://www.python.org/downloads/
 <br>Now that you have everything installed, download the project or clone this project.
-<br>open up the project in pycharm or other python IDE's and run the main.
+<br>open up the project in pycharm or another python IDE's and run the main.
 <br>in the main you can load other json files - just make sure to o=put the while oathif the file isnt part of the project)
 <br> you can also change the values that you are looking for (example change the shortest path in line 77/79/81/83 to find the distance between other nodes)
 
