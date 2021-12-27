@@ -6,7 +6,21 @@ __________________________
 
 In this project we had to recreate the project Oop2 in python
 <br>Here is a link to Oop2 https://github.com/Yehudit-Brickner/OOP2 this project was done in Java.
+the main object of both of these project was to create a graph, and implement algorithms for the graph, and than make aGUI so that uo can see the graph.
 
+______________________________________________________
+# how to run the project
+
+First you will need to make sure that you have python downloaded on your computer.
+<br>If they it isnt downloaded here is the link to download:
+<br>python: https://www.python.org/downloads/
+<br>Now that you have everything installed, download the project or clone this project.
+<br>open up the project in pycharm or other python IDE's and run the main.
+<br>in the main you can load other json files - just make sure to o=put the while oathif the file isnt part of the project)
+<br> you can also change the values that you are looking for (example change the shortest path in line 77/79/81/83 to find the distance between other nodes)
+
+___________________
+## About this project:
 In this project we have 5 classes:
 <br>node, edges, DiGraph, GraphAlgo and main
 ______________________________________________________
@@ -47,3 +61,4 @@ this class was given to us to make syre that we implemented all the functions
 ---------------------------------
 ### uml of the classses
 ![uml](https://github.com/najeebWorld/Oop3/blob/main/uml.png)
+
